@@ -150,9 +150,7 @@ def create_app(test_config=None):
 
         if len(questions) == 0:
           abort(404)
-        #   return jsonify({
-        #     'questions' : 'None available'
-        #   })
+       
         
         return jsonify({
         'success' : True,

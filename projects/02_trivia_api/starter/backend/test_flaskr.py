@@ -25,7 +25,7 @@ class TriviaTestCase(unittest.TestCase):
              'searchTerm' : 'favorite'
         }
         self.search_400={
-             'searchTerm' : 'original'
+             'searchTerm' : 'gift'
         }
         self.quiz={
              'quiz_category' : {
@@ -33,7 +33,7 @@ class TriviaTestCase(unittest.TestCase):
              },
              'previous_questions' : []
         }
-        self.database_path = "postgres://{}/{}".format('localhost:5432', self.database_name)
+        self.database_path = "postgresql://{}/{}".format('localhost:5432', self.database_name)
         setup_db(self.app, self.database_path)
 
         # binds the app to the current context
@@ -78,6 +78,10 @@ class TriviaTestCase(unittest.TestCase):
     
     def test_delete_question(self):
         res=self.client().delete('/questions/5')
+        self.assertEqual(res.status_code, 200)
+    
+    def test_delete_invalid_question(self):
+        res=self.client().delete('/questions/60')
         self.assertEqual(res.status_code, 422)
 
     def test_quizzes(self):
@@ -85,9 +89,9 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
 
 
-    # def test_get_questions_by_category(self):
-    #     res = self.client().get('/categories/2/questions')
-    #     self.assertEqual(res.status_code, 200)
+    def test_get_questions_by_category(self):
+        res = self.client().get('/categories/2/questions')
+        self.assertEqual(res.status_code, 200)
     
 
 # Make the tests conveniently executable
